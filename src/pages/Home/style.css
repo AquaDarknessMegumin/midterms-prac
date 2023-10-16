@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito+Sans:opsz,wght@6..12,300&family=Poppins:wght@500&family=Roboto:wght@300&display=swap');
+
+button{
+    margin-right: 10px;
+    height: 2.5em;
+    width: 10rem;
+    cursor: pointer;
+    color: black;
+}
+
+button:hover{
+    background-color:  #C0D6DF;
+}
+
+.Home h1{
+    font-family: Montserrat;
+}
