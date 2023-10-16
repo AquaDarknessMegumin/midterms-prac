@@ -17,10 +17,14 @@ function UseApi(){
 
     return(
         <>
+            <h1>Api Activity</h1>
             <div className="image">
                 <img src={title}/>
             </div>
             <button onClick={getData} >Click Me </button>
+            <Link to="/">
+                <button>Home</button>
+            </Link>
         </>
     )
 
