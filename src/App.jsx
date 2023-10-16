@@ -1,6 +1,7 @@
 import Card from './pages/FirstActivity'
-import Home from './pages/Home';
-import Search from './pages/SecondActitvity';
+import Home from './pages/Home'
+import Search from './pages/SecondActitvity'
+import UseApi from './pages/ThirdActivity'
 import { useState } from 'react';
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
 import './App.css'
@@ -19,6 +20,7 @@ function App() {
           <Route path = '/' element = {<Home/>}   />
           <Route path = '/first' element = {<Card/>}   />
           <Route path = '/second' element = {<Search/>}  />
+          <Route path = '/third' element = {<UseApi/>}  />
 
         </Routes>
       </BrowserRouter>
