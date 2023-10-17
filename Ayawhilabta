@@ -1,0 +1,393 @@
+
+import React, { useState } from "react";
+import './App.css';
+
+
+const ContactBook = () => {
+  const [contacts, setContacts] = useState([]);
+  const [addFormData, setAddFormData] = useState({
+    name: "",
+    age: "",
+    contactNumber: "",
+    id: "",
+    course: ""
+  });
+  const [editFormData, setEditFormData] = useState(null);
+  const [editContactId, setEditContactId] = useState(null);
+
+  const handleAddInputChange = (e) => {
+    const { name, value } = e.target;
+    setAddFormData({ ...addFormData, [name]: value });
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData({ ...editFormData, [name]: value });
+  };
+
+  const addContact = () => {
+    if (contacts.some(contact => contact.id === addFormData.id)) {
+      alert("ID# already exists in the contact book!");
+    } else {
+      setContacts([...contacts, addFormData]);
+      setAddFormData({
+        name: "",
+        age: "",
+        contactNumber: "",
+        id: "",
+        course: ""
+      });
+    }
+  };
+
+  const deleteContact = (id) => {
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
+  };
+
+  const handleEditContact = (contact) => {
+    setEditContactId(contact.id);
+    setEditFormData(contact);
+  };
+
+  const updateContact = () => {
+    // Check if the updated ID already exists in the contacts list
+    if (contacts.some(contact => contact.id === editFormData.id)) {
+      alert("ID# already exists in the contact book!");
+    } else {
+      const updatedContacts = contacts.map(contact =>
+        contact.id === editContactId ? { ...editFormData } : contact
+      );
+      setContacts(updatedContacts);
+      setEditContactId(null);
+      setEditFormData(null);
+    }
+  };
+  
+
+  const cancelEdit = () => {
+    setEditContactId(null);
+    setEditFormData(null);
+  };
+
+  return (
+    <div className="container">
+      
+      <div className="form-container">
+      <h1>Contact Book</h1>
+        <label>Name:</label>
+        <input type="text" name="name" value={editContactId ? editFormData.name : addFormData.name} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Age:</label>
+        <input type="number" name="age" value={editContactId ? editFormData.age : addFormData.age} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Contact Number:</label>
+        <input type="tel" name="contactNumber" value={editContactId ? editFormData.contactNumber : addFormData.contactNumber} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>ID:</label>
+        <input type="text" name="id" value={editContactId ? editFormData.id : addFormData.id} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Course:</label>
+        <input type="text" name="course" value={editContactId ? editFormData.course : addFormData.course} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        {editContactId && (
+          <>
+            <button onClick={updateContact}>
+              Update Contact
+            </button>
+            <button onClick={cancelEdit}>
+              Cancel
+            </button>
+          </>
+        )}
+        {!editContactId && (
+          <button onClick={addContact}>
+            Add Contact
+          </button>
+        )}
+      </div>
+      <div className="contact-list-box">
+        <h2>Contacts</h2>
+        <ul className="contact-list">
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+             Name: {contact.name}, Age: {contact.age}, Contact Number: {contact.contactNumber}, ID: {contact.id}, Course: {contact.course}
+              <button onClick={() => handleEditContact(contact)}>Edit</button>
+              <button onClick={() => deleteContact(contact.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default ContactBook;
+.container {
+    padding: 100px;
+    display: flex;
+  }
+  
+  .contact-list-box,
+  .form-container {
+    width: 350px;
+    height: 610px;
+    box-shadow: 0 0 25px rgba(212, 245, 92, 0.76), 0 2px 5px rgba(147, 171, 185, 0.44),
+      inset 0 -1px 2px rgba(14, 41, 57, 0.15);
+    padding: 10px 50px 0;
+    border: 15px solid #54a77f;
+    background-color: transparent;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="number"],
+  .form-container input[type="tel"],
+  .contact-list-box input[type="text"],
+  .contact-list-box input[type="number"],
+  .contact-list-box input[type="tel"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-container button,
+  .contact-list-box button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .form-container button:hover,
+  .contact-list-box button:hover {
+    background-color: #3d613f;
+  }
+  
+  .contact-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contact-list li {
+    margin-bottom: 10px;
+    font-size: 14px; /* Set the font size for contact-list */
+  }
+  
+  .contact-list button {
+    background-color: #b6261b;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .contact-list button:hover {
+    background-color: #d38f50;
+  }
+  
+
+Show quoted text
+Hide quoted text
+
+---------- Forwarded message ---------
+From: Shawn Ryan Nacario <22103598@usc.edu.ph>
+Date: Sat, Oct 7, 2023, 11:21 PM
+Subject: Re: WEBDEV 2 Contact FINAL
+To: Shawn Ryan Nacario <22103598@usc.edu.ph>
+
+
+.container {
+    padding: 100px;
+    display: flex;
+  }
+  
+  .contact-list-box,
+  .form-container {
+    width: 350px;
+    height: 610px;
+    box-shadow: 0 0 25px rgba(212, 245, 92, 0.76), 0 2px 5px rgba(147, 171, 185, 0.44),
+      inset 0 -1px 2px rgba(14, 41, 57, 0.15);
+    padding: 10px 50px 0;
+    border: 15px solid #54a77f;
+    background-color: transparent;
+  }
+  
+  .form-container input[type="text"],
+  .form-container input[type="number"],
+  .form-container input[type="tel"],
+  .contact-list-box input[type="text"],
+  .contact-list-box input[type="number"],
+  .contact-list-box input[type="tel"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .form-container button,
+  .contact-list-box button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .form-container button:hover,
+  .contact-list-box button:hover {
+    background-color: #3d613f;
+  }
+  
+  .contact-list ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contact-list li {
+    margin-bottom: 10px;
+    font-size: 14px; /* Set the font size for contact-list */
+  }
+  
+  .contact-list button {
+    background-color: #b6261b;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .contact-list button:hover {
+    background-color: #d38f50;
+  }
+  
+
+
+On Sat, Oct 7, 2023 at 11:21 PM Shawn Ryan Nacario <22103598@usc.edu.ph> wrote:
+import React, { useState } from "react";
+import './App.css';
+
+
+const ContactBook = () => {
+  const [contacts, setContacts] = useState([]);
+  const [addFormData, setAddFormData] = useState({
+    name: "",
+    age: "",
+    contactNumber: "",
+    id: "",
+    course: ""
+  });
+  const [editFormData, setEditFormData] = useState(null);
+  const [editContactId, setEditContactId] = useState(null);
+
+  const handleAddInputChange = (e) => {
+    const { name, value } = e.target;
+    setAddFormData({ ...addFormData, [name]: value });
+  };
+
+  const handleEditInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditFormData({ ...editFormData, [name]: value });
+  };
+
+  const addContact = () => {
+    if (contacts.some(contact => contact.id === addFormData.id)) {
+      alert("ID# already exists in the contact book!");
+    } else {
+      setContacts([...contacts, addFormData]);
+      setAddFormData({
+        name: "",
+        age: "",
+        contactNumber: "",
+        id: "",
+        course: ""
+      });
+    }
+  };
+
+  const deleteContact = (id) => {
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
+  };
+
+  const handleEditContact = (contact) => {
+    setEditContactId(contact.id);
+    setEditFormData(contact);
+  };
+
+  const updateContact = () => {
+    // Check if the updated ID already exists in the contacts list
+    if (contacts.some(contact => contact.id === editFormData.id)) {
+      alert("ID# already exists in the contact book!");
+    } else {
+      const updatedContacts = contacts.map(contact =>
+        contact.id === editContactId ? { ...editFormData } : contact
+      );
+      setContacts(updatedContacts);
+      setEditContactId(null);
+      setEditFormData(null);
+    }
+  };
+  
+
+  const cancelEdit = () => {
+    setEditContactId(null);
+    setEditFormData(null);
+  };
+
+  return (
+    <div className="container">
+      
+      <div className="form-container">
+      <h1>Contact Book</h1>
+        <label>Name:</label>
+        <input type="text" name="name" value={editContactId ? editFormData.name : addFormData.name} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Age:</label>
+        <input type="number" name="age" value={editContactId ? editFormData.age : addFormData.age} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Contact Number:</label>
+        <input type="tel" name="contactNumber" value={editContactId ? editFormData.contactNumber : addFormData.contactNumber} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>ID:</label>
+        <input type="text" name="id" value={editContactId ? editFormData.id : addFormData.id} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        <label>Course:</label>
+        <input type="text" name="course" value={editContactId ? editFormData.course : addFormData.course} onChange={editContactId ? handleEditInputChange : handleAddInputChange} />
+        {editContactId && (
+          <>
+            <button onClick={updateContact}>
+              Update Contact
+            </button>
+            <button onClick={cancelEdit}>
+              Cancel
+            </button>
+          </>
+        )}
+        {!editContactId && (
+          <button onClick={addContact}>
+            Add Contact
+          </button>
+        )}
+      </div>
+      <div className="contact-list-box">
+        <h2>Contacts</h2>
+        <ul className="contact-list">
+          {contacts.map((contact) => (
+            <li key={contact.id}>
+             Name: {contact.name}, Age: {contact.age}, Contact Number: {contact.contactNumber}, ID: {contact.id}, Course: {contact.course}
+              <button onClick={() => handleEditContact(contact)}>Edit</button>
+              <button onClick={() => deleteContact(contact.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default ContactBook;
